@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ULTIMATE CHAOS + VIDEO BACKGROUND</title>
+<style>
+/* ------------------ VIDEO BACKGROUND ------------------ */
+#bg-video {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  object-fit: cover;
+  z-index: -99;
+}
+
+/* ------------------ CHAOS OVERLAYS ------------------ */
+#pulseLayer,#glitchLayer,#fireLayer,#gooLayer,#sirenLeft,#sirenRight,
+#xrayLayer,#warpLayer,#vortex,#recOverlay,#heatLayer,#imageLayer{
+  position: fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  pointer-events:none;
+  z-index:999999000;
+}
+
+#pulseLayer {background:rgba(255,0,100,0.2); mix-blend-mode:screen; opacity:0; transition:opacity 0.15s;}
+#glitchLayer{background:repeating-linear-gradient(90deg,rgba(0,255,200,0.2) 0px, rgba(255,0,180,0.2) 8px); opacity:0.4; animation:glitchSlide 0.25s infinite linear;}
+@keyframes glitchSlide{from{transform:translateX(0);} to{transform:translateX(-20px);}}
+#fireLayer{background:url('https://upload.wikimedia.org/wikipedia/commons/3/3f/Fire_animation.gif');background-size:cover;opacity:0.6;}
+#gooLayer{background:url('https://upload.wikimedia.org/wikipedia/commons/6/65/Green_blob.svg');background-size:cover;opacity:0.4;}
+#sirenLeft,#sirenRight{width:10vw; opacity:0.8; mix-blend-mode:screen;}
+#sirenLeft{left:0;background:red; animation:sirenA 0.5s infinite;}
+#sirenRight{right:0;background:blue; animation:sirenB 0.5s infinite;}
+@keyframes sirenA{0%{opacity:0.4;} 100%{opacity:0.8;}}
+@keyframes sirenB{0%{opacity:0.8;} 100%{opacity:0.4;}}
+#xrayLayer{mix-blend-mode:difference;background:rgba(255,255,255,0.1);}
+#heatLayer{backdrop-filter:blur(2px) contrast(1.6); animation:heatWobble 0.3s infinite alternate;}
+@keyframes heatWobble{from{transform:scale(1.01);} to{transform:scale(1.03);}}
+#warpLayer{animation:warpSpin 2s infinite linear; mix-blend-mode:hard-light; background:radial-gradient(circle, rgba(255,0,255,0.2), transparent 70%);}
+@keyframes warpSpin{from{transform:rotate(0deg);} to{transform:rotate(360deg);}}
+#vortex{background:url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Black_hole_cartoon.png'); background-size:contain; background-repeat:no-repeat; background-position:center; opacity:0.7; animation:suck 3s infinite;}
+@keyframes suck{0%{transform:scale(1);opacity:0.7;}50%{transform:scale(1.3);opacity:1;}100%{transform:scale(1);opacity:0.7;}}
+#recOverlay{top:10px; right:20px; width:auto; height:auto; color:white; font-family:monospace; font-size:20px; padding:8px; border:2px solid red; background:rgba(0,0,0,0.6); z-index:999999999;}
+.cursorGhost{position:fixed;width:20px;height:20px;background:yellow;border:2px solid black;border-radius:50%;pointer-events:none; z-index:999999999;}
+.chaosPopup{position:absolute;width:260px;background:white;border:3px solid red;padding:10px;z-index:999999999;box-shadow:0 0 30px red;font-family:Arial;animation:shake 0.2s infinite;}
+@keyframes shake{0%{transform:translate(0,0);}25%{transform:translate(3px,-3px);}50%{transform:translate(-3px,3px);}75%{transform:translate(2px,2px);}}
+.worm{position:absolute;width:90px;animation:wig 0.7s infinite alternate; z-index:999999999;}
+@keyframes wig{from{transform:rotate(-12deg);} to{transform:rotate(12deg);}}
+#imageLayer{position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; z-index:999999998;}
+.bombImage{position:absolute; z-index:999999998; pointer-events:none;}
+</style>
+</head>
+<body>
+
+<!-- Video background -->
+<video id="bg-video" autoplay loop muted playsinline>
+  <source src="https://cdn.pixabay.com/vimeo/370200578/Abstract%20Motion%20Background%20_%20Free%20Stock%20Video%20_%20Pixabay-14704.mp4" type="video/mp4">
+  Your browser doesn't support HTML5 video.
+</video>
+
+<!-- Chaos layers -->
+<div id="pulseLayer"></div>
+<div id="glitchLayer"></div>
+<div id="fireLayer"></div>
+<div id="heatLayer"></div>
+<div id="gooLayer"></div>
+<div id="warpLayer"></div>
+<div id="xrayLayer"></div>
+<div id="sirenLeft"></div>
+<div id="sirenRight"></div>
+<div id="vortex"></div>
+<div id="imageLayer"></div>
+<div id="recOverlay">🔴 REC • 00:00</div>
+
+<!-- Audio -->
+<audio id="song1" src="https://archive.org/download/toby-fox-megalovania/Megalovania.mp3" loop autoplay></audio>
+<audio id="song2" src="https://archive.org/download/run-nolongernull/RUN.mp3" loop autoplay></audio>
+<audio id="song3" src="https://archive.org/download/mariah-all-i-want-for-christmas/AllIWantForChristmas.mp3" loop autoplay></audio>
+<audio id="song4" src="https://archive.org/download/sleigh-bells-vindaloo-singh/SleighBells.mp3" loop autoplay></audio>
+<audio id="err" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+<audio id="sizzle" src="https://actions.google.com/sounds/v1/alarms/medium_beep.ogg"></audio>
+<audio id="siren" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
+
+<script>
+/* ------------------ PULSE ------------------ */
+setInterval(()=>{const p=document.getElementById("pulseLayer");p.style.opacity=p.style.opacity==="0"?"0.7":"0";},180);
+
+/* ------------------ AUDIO CHAOS ------------------ */
+const tracks=[document.getElementById("song1"),document.getElementById("song2"),document.getElementById("song3"),document.getElementById("song4")];
+tracks.forEach(t=>t.play());
+setInterval(()=>{
+  tracks.forEach(t=>{t.volume=Math.random()*0.8+0.2;t.playbackRate=Math.random()*0.7+0.8;});
+  if(Math.random()<0.7) document.getElementById("err").play();
+  if(Math.random()<0.5) document.getElementById("sizzle").play();
+  if(Math.random()<0.3) document.getElementById("siren").play();
+},500);
+
+/* ------------------ SCREEN SHAKE ------------------ */
+setInterval(()=>{document.body.style.transform=`translate(${Math.random()*12-6}px,${Math.random()*12-6}px) rotate(${Math.random()*6-3}deg)`;},90);
+
+/* ------------------ CURSOR GHOSTS ------------------ */
+document.addEventListener("mousemove",e=>{for(let i=0;i<4;i++){const g=document.createElement("div");g.className="cursorGhost";g.style.left=e.clientX+(Math.random()*40-20)+"px";g.style.top=e.clientY+(Math.random()*40-20)+"px";document.body.appendChild(g);setTimeout(()=>g.remove(),300);}});
+
+/* ------------------ POPUPS ------------------ */
+function spawnPopup(){const p=document.createElement("div");p.className="chaosPopup";p.style.left=Math.random()*window.innerWidth+"px";p.style.top=Math.random()*window.innerHeight+"px";p.innerHTML=`<b>FATAL OVERLOAD</b><br>AI TAKEOVER INITIATED<br><i>Screaming…</i><br><marquee>AAAAAAA AAAAAA AAAAAA</marquee><br><a href="https://ptoszek.pl" target="_blank">Visit Ptoszek.pl</a><br><a href="https://ptoszek.pl" target="_blank">More Chaos Here</a><br><a href="https://ptoszek.pl" target="_blank">ptoszek.pl — Enter if you dare</a>`;document.body.appendChild(p);document.getElementById("err").play();}
+setInterval(spawnPopup,500);
+
+/* ------------------ WORMS ------------------ */
+function spawnWorm(){const w=document.createElement("img");w.src="https://upload.wikimedia.org/wikipedia/commons/2/28/Green_snake_icon.png";w.className="worm";document.body.appendChild(w);let x=Math.random()*window.innerWidth;let y=Math.random()*window.innerHeight;let dx=(Math.random()*8)+3;let dy=(Math.random()*8)+3;setInterval(()=>{x+=dx;y+=dy;if(x<0||x>window.innerWidth-80)dx=-dx;if(y<0||y>window.innerHeight-80)dy=-dy;w.style.left=x+"px";w.style.top=y+"px";},20);}
+for(let i=0;i<25;i++) spawnWorm();
+
+/* ------------------ HYPER IMAGE BOMBARDMENT ------------------ */
+const customImages=[
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Tralalero_Tralala_Italian_brainrot.webp/576px-Tralalero_Tralala_Italian_brainrot.webp',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Anime_character_sample.png/800px-Anime_character_sample.png',
+  'https://upload.wikimedia.org/wikipedia/commons/5/5e/Red_dot.svg/1200px-Red_dot.svg.png'
+];
+function spawnHyperImage(){const img=document.createElement('img');img.src=customImages[Math.floor(Math.random()*customImages.length)];img.className='bombImage';img.style.width=(30+Math.random()*120)+'px';img.style.left=Math.random()*window.innerWidth+'px';img.style.top=(Math.random()*-200)+'px';img.style.transform=`rotate(${Math.random()*360}deg)`;img.style.opacity=Math.random()*0.7+0.3;document.getElementById('imageLayer').appendChild(img);const speed=1+Math.random()*6;const drift=(Math.random()*6-3);const rotSpeed=(Math.random()*6-3);let y=parseFloat(img.style.top);let x=parseFloat(img.style.left);let rot=Math.random()*360;const id=setInterval(()=>{y+=speed;x+=drift;rot+=rotSpeed;img.style.top=y+'px';img.style.left=x+'px';img.style.transform=`rotate(${rot}deg)`;if(y>window.innerHeight+200||x<-200||x>window.innerWidth+200){img.remove();clearInterval(id);}},20);}
+setInterval(()=>{for(let i=0;i<8;i++) spawnHyperImage();},50);
+
+/* ------------------ FILTER FLICKER ------------------ */
+setInterval(()=>{document.body.style.filter=Math.random()<0.5?"blur(1px) contrast(1.4)":"none";},300);
+
+/* ------------------ REC TIMER ------------------ */
+let rec=0; setInterval(()=>{rec++; document.getElementById("recOverlay").innerText=`🔴 REC • 00:${rec<10?"0"+rec:rec}`;},1000);
+
+/* ------------------ VIDEO BACKGROUND ALTERNATION ------------------ */
+const clips=[
+  "https://cdn.pixabay.com/vimeo/370200578/Abstract%20Motion%20Background%20_%20Free%20Stock%20Video%20_%20Pixabay-14704.mp4",
+  "https://freestockfootagearchive.com/wp-content/uploads/2021/12/Fine-Glitch-Fragments-Overlay-Effect-White-Background-Loop.mp4",
+  "https://freestockfootagearchive.com/wp-content/uploads/2020/09/Minimal-Glitched-Pattern-Background-Layer-Loop.mp4"
+];
+const vid=document.getElementById("bg-video");
+let vidIdx=0;
+setInterval(()=>{vidIdx=(vidIdx+1)%clips.length; vid.src=clips[vidIdx]; vid.load(); vid.play();},15000);
+</script>
+</body>
+</html>
