@@ -82,5 +82,5 @@
 <audio id="song3" src="https://archive.org/download/mariah-all-i-want-for-christmas/AllIWantForChristmas.mp3" loop></audio>
 <audio id="song4" src="https://archive.org/download/sleigh-bells-vindaloo-singh/SleighBells.mp3" loop></audio>
 
-<audio id="err" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+<audio id="err" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"loop></audio>
 <audio id="sizzle" src="https://actions.google.com/sounds/v1/
